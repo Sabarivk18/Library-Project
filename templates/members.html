@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Members</title>
+    <style>
+        /* CSS for horizontal menu */
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f2f2f2;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li a {
+            display: block;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        nav li a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/books">Manage Books</a></li>
+            <li><a href="/members">Manage Members</a></li>
+            <li><a href="/transactions">Manage Transactions</a></li>
+            <li><a href="/search">Search Books</a></li>
+        </ul>
+    </nav>
+    <h1>Manage Members</h1>
+    <form action="/members" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="initial_debt">Initial Debt:</label>
+        <input type="number" id="initial_debt" name="initial_debt" min="0" step="1" required><br><br>
+        <input type="submit" value="Add Member">
+    </form>
+    <br>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Debt</th>
+            <th>Action</th>
+        </tr>
+        {% for member in members %}
+        <tr>
+            <td>{{ member.name }}</td>
+            <td>{{ member.debt }}</td>
+            <td>
+                <form action="/members/delete/{{ loop.index0 }}" method="post">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

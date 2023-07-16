@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Transactions</title>
+    <style>
+        /* CSS for horizontal menu */
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f2f2f2;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li a {
+            display: block;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        nav li a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/books">Manage Books</a></li>
+            <li><a href="/members">Manage Members</a></li>
+            <li><a href="/transactions">Manage Transactions</a></li>
+            <li><a href="/search">Search Books</a></li>
+        </ul>
+    </nav>
+    <h1>Manage Transactions</h1>
+    <form action="/transactions" method="post">
+        <label for="book_id">Book:</label>
+        <select id="book_id" name="book_id" required>
+            {% for book in books %}
+                {% if book.quantity > 0 %}
+                    <option value="{{ loop.index0 }}">{{ book.title }} by {{ book.author }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br><br>
+        <label for="member_id">Member:</label>
+        <select id="member_id" name="member_id" required>
+            {% for member in members %}
+                <option value="{{ loop.index0 }}">{{ member.name }}</option>
+            {% endfor %}
+        </select><br><br>
+        <input type="submit" value="Issue Book">
+    </form>
+    <br>
+    <table>
+        <tr>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Rent Fee</th>
+            <th>Action</th>
+        </tr>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{ books[transaction.book_id].title }} by {{ books[transaction.book_id].author }}</td>
+            <td>{{ members[transaction.member_id].name }}</td>
+            <td>{{ transaction.fee }}</td>
+            <td>
+                {% if not transaction.returned %}
+                    <form action="/transactions/return/{{ loop.index0 }}" method="post">
+                        <input type="submit" value="Return">
+                    </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

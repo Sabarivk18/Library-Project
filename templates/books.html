@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Books</title>
+    <style>
+        /* CSS for horizontal menu */
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f2f2f2;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li a {
+            display: block;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        nav li a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/books">Manage Books</a></li>
+            <li><a href="/members">Manage Members</a></li>
+            <li><a href="/transactions">Manage Transactions</a></li>
+            <li><a href="/search">Search Books</a></li>
+        </ul>
+    </nav>
+    <h1>Manage Books</h1>
+    <form action="/books" method="post">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required><br><br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required><br><br>
+        <input type="submit" value="Add Book">
+    </form>
+    <br>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.quantity }}</td>
+            <td>
+                <form action="/books/delete/{{ loop.index0 }}" method="post">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Books</title>
+    <style>
+        /* CSS for horizontal menu */
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f2f2f2;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li a {
+            display: block;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        nav li a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/books">Manage Books</a></li>
+            <li><a href="/members">Manage Members</a></li>
+            <li><a href="/transactions">Manage Transactions</a></li>
+            <li><a href="/search">Search Books</a></li>
+        </ul>
+    </nav>
+    <h1>Search Books</h1>
+    <form action="/search" method="post">
+        <label for="query">Search Query:</label>
+        <input type="text" id="query" name="query" required><br><br>
+        <input type="submit" value="Search">
+    </form>
+    {% if search_results %}
+        <br>
+        <h2>Search Results for '{{ query }}'</h2>
+        {% if search_results %}
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Quantity</th>
+                </tr>
+                {% for book in search_results %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No results found.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
